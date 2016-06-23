@@ -15,3 +15,7 @@ ManagerName --- Used for the manager name variable in the code.
 WindowName --- Used for the root or main window, I use a base class for each window and the base window name is "MainWindow".
 
 NameSpace --- This is the namespace of your project / folder where the windows are located for the Neoforce Controls.
+
+
+Example output:
+![alt tag](https://snag.gy/K6RNl2.jpg)
