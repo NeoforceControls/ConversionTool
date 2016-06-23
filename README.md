@@ -18,4 +18,4 @@ NameSpace --- This is the namespace of your project / folder where the windows a
 
 
 Example output:
-![alt tag](https://snag.gy/K6RNl2.jpg)
+![alt tag](https://snag.gy/KcohOP.jpg)
