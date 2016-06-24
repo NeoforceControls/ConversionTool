@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace UIParser
     {
         public string Declaration = string.Empty;
         public StringBuilder Instantiate = new StringBuilder();
+        public bool HasEvent = false;
 
         public ControlTypeOutput(Control inputControl)
         {
@@ -40,9 +42,19 @@ namespace UIParser
             }
 
             Instantiate.AppendLine(string.Format("            {0}.Add(this.{1});", ParseDesign.WindowName, inputControl.Name));
+      
+            HasEvent = HasEventHandler(inputControl, "EventClick");
+
+            if(HasEvent == true)
+            {
+                Instantiate.AppendLine(string.Format("            this.{0}.Click += {1}Events.On{0}Click;", inputControl.Name, ParseDesign.DerivedName));
+            }
+
             Instantiate.AppendLine("");
             Instantiate.AppendLine(string.Format("            #endregion {0}", inputControl.Name));
             Instantiate.AppendLine("");
+
+
         }
 
         private void HandleTabControls(Control inputControl)
@@ -73,6 +85,23 @@ namespace UIParser
 
             }
 
+        }
+
+        private bool HasEventHandler(Control control, string eventName)
+        {
+            EventHandlerList events =
+                (EventHandlerList)
+                typeof(Component)
+                 .GetProperty("Events", BindingFlags.NonPublic | BindingFlags.Instance)
+                 .GetValue(control, null);
+
+            object key = typeof(Control)
+                .GetField(eventName, BindingFlags.NonPublic | BindingFlags.Static)
+                .GetValue(null);
+
+            Delegate handlers = events[key];
+
+            return handlers != null && handlers.GetInvocationList().Any();
         }
 
         private string GetColorName(Color color)
