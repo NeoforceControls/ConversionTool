@@ -20,6 +20,7 @@ WindowName --- Used for the root or main window, I use a base class for each win
 
 NameSpace --- This is the namespace of your project / folder where the windows are located for the Neoforce Controls.
 
+Developer Notes: There are some instances of my own code in there I need to strip out as this converter is developed, if you run into some of these just edit the code for your project or remove them. I apologize and will try to be mindful to generalized things.
 
 Example output:
 ![alt tag](https://snag.gy/KcohOP.jpg)
