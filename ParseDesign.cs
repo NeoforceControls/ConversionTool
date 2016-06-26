@@ -16,14 +16,15 @@ namespace UIParser
         public static string NameSpace = "UserInterface.Windows";
         public static string BaseWindow = ": BaseWindow";
         public static string DerivedName = "";
+        public static Dictionary<string, string> ControlConvertor = new Dictionary<string, string>();
 
-        public static string OutputDirectory = @"C:\Users\lakedoo23\Documents\Visual Studio 2013\Projects\MudClientV1\UserInterface\Windows";
+        public static string OutputDirectory = @"D:\2DMudProject\Client-XNA\LoMv1\UserInterface\Windows";
 
         private static Dictionary<string, ControlTypeOutput> _controls = new Dictionary<string, ControlTypeOutput>();
 
         static ParseDesign()
         {
-
+            ControlConvertor.Add("NumericUpDown", "SpinBox");
         }
 
         public static void Input(Form input, bool generateCodeBehind)
@@ -94,7 +95,7 @@ namespace UIParser
             
             foreach (var control in _controls)
             {
-                layout.AppendLine(control.Value.Instantiate.ToString());
+                layout.AppendLine(control.Value.Instantiate.ToString()); 
 
                 if(control.Value.HasEvent == true)
                 {
@@ -105,12 +106,26 @@ namespace UIParser
                     codeBehind.AppendLine("        }");
                     codeBehind.AppendLine("");
                 }
+
+                if(control.Value.CodeBehind.Length > 0)
+                {
+                    codeBehind.Append(control.Value.CodeBehind.ToString());
+                }
             }
 
             codeBehind.AppendLine("   }");
             codeBehind.AppendLine("}");
 
             layout.AppendLine("        }");
+
+            layout.AppendLine("");
+            layout.AppendLine("        public override void HandleCommand(SharedGameLibrary.Commands.ICommand command)");
+            layout.AppendLine("        {");
+            layout.AppendLine("");
+            layout.AppendLine("        }");
+            layout.AppendLine("");
+
+
             layout.AppendLine("   }");
             layout.AppendLine("}");
 
